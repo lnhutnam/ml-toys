@@ -1,3 +1,6 @@
+import logging
+import logging.config
+
 import torch
 
 import equinox as eqx
@@ -17,6 +20,7 @@ def train(
     optim: optax.GradientTransformation,
     steps: int,
     print_every: int,
+    
 ) -> CNN:
     # Just like earlier: It only makes sense to train the arrays in our model,
     # so filter out everything else.
@@ -50,7 +54,11 @@ def train(
         model, opt_state, train_loss = make_step(model, opt_state, x, y)
         if (step % print_every) == 0 or (step == steps - 1):
             test_loss, test_accuracy = evaluate(model, testloader)
-            print(
+            # print(
+            #     f"{step=}, train_loss={train_loss.item()}, "
+            #     f"test_loss={test_loss.item()}, test_accuracy={test_accuracy.item()}"
+            # )
+            logging.info(
                 f"{step=}, train_loss={train_loss.item()}, "
                 f"test_loss={test_loss.item()}, test_accuracy={test_accuracy.item()}"
             )

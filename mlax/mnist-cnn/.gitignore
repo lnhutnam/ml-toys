@@ -1,5 +1,7 @@
 # For current project
 MNIST
+runs
+test.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
