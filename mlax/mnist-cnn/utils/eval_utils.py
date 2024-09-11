@@ -4,6 +4,7 @@ import jax.numpy as jnp
 from jaxtyping import Array, Float, Int, PyTree  # https://github.com/google/jaxtyping
 
 import torch
+import torch.utils
 
 from models.mnist_cnn import CNN
 from utils.loss import loss
@@ -13,17 +14,32 @@ from utils.loss import loss
 def compute_accuracy(
     model: CNN, x: Float[Array, "batch 1 28 28"], y: Int[Array, " batch"]
 ) -> Float[Array, ""]:
-    """This function takes as input the current model
-    and computes the average accuracy on a batch.
+    """
+    Computes the average accuracy of the model on a given batch.
+
+    Args:
+        model (CNN): The neural network model.
+        x (Float[Array, "batch 1 28 28"]): The input data batch.
+        y (Int[Array, "batch"]): The true labels for the batch.
+
+    Returns:
+        Float[Array, ""]: The average accuracy for the batch.
     """
     pred_y = jax.vmap(model)(x)
     pred_y = jnp.argmax(pred_y, axis=1)
     return jnp.mean(y == pred_y)
 
 
-def evaluate(model: CNN, testloader: torch.utils.data.DataLoader):
-    """This function evaluates the model on the test dataset,
-    computing both the average loss and the average accuracy.
+def evaluate(model: CNN, testloader: torch.utils.data.DataLoader) -> tuple[float, float]:
+    """
+    Evaluates the model on the test dataset, computing both the average loss and the average accuracy.
+
+    Args:
+        model (CNN): The neural network model.
+        testloader (DataLoader): A PyTorch DataLoader containing the test data.
+
+    Returns:
+        tuple[float, float]: The average loss and average accuracy over the test dataset.
     """
     avg_loss = 0
     avg_acc = 0

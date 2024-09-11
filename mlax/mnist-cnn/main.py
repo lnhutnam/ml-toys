@@ -18,7 +18,7 @@ from utils.trainer import train
 def main(args):
     curr_dir = Path(__file__).resolve().parent
     name = Path(
-        args.save_path + os.sep + args.model + "_" + args.dataname + "_" + args.model_id
+        args.save_path + os.sep + args.model + "_" + args.dataname + "_" + args.id
     )
 
     if not os.path.exists(curr_dir / name):
